@@ -77,7 +77,20 @@ be necessary. -/
 
 theorem forall_and {α : Type} (p q : α → Prop) :
   (∀x, p x ∧ q x) ↔ (∀x, p x) ∧ (∀x, q x) :=
-    sorry
+    by
+      apply Iff.intro
+      { intro h
+        apply And.intro
+        { intro x
+          apply And.left
+          apply h }
+        { intro x
+          apply And.right
+          apply h } }
+      { intro h x
+        apply And.intro
+        { apply And.left h }
+        { apply And.right h } }
 
 
 /- ## Question 2: Natural Numbers
@@ -90,12 +103,18 @@ Prove the following recursive equations on the first argument of the
 
 theorem mul_zero (n : ℕ) :
   mul 0 n = 0 :=
-  sorry
+  by
+    induction n with
+    | zero => rfl
+    | succ n' ih => simp [mul, ih, add]
 
 #check add_succ
 theorem mul_succ (m n : ℕ) :
   mul (Nat.succ m) n = add (mul m n) n :=
-  sorry
+  by
+    induction n with
+    | zero => rfl
+    | succ n' ih => simp only [add, add_succ, mul, ih, add_assoc]
 
 /- ### 2.2.
 \  Prove commutativity and associativity of multiplication using the
@@ -103,11 +122,18 @@ theorem mul_succ (m n : ℕ) :
 
 theorem mul_comm (m n : ℕ) :
   mul m n = mul n m :=
-  sorry
+  by
+    induction m with
+    | zero => rw [mul_zero, mul]
+    | succ n' ih => rw [mul, ← ih, mul_succ, add_comm]
 
 theorem mul_assoc (l m n : ℕ) :
   mul (mul l m) n = mul l (mul m n) :=
-  sorry
+  by
+    induction n with
+    | zero => simp [mul]
+    | succ n' ih => simp [mul, ih, mul_add]
+
 
 /- 2.3.
 \  Prove the symmetric variant of `mul_add` using `rw`. To apply
@@ -116,7 +142,9 @@ arguments (e.g., `mul_comm _ l`). -/
 
 theorem add_mul (l m n : ℕ) :
   mul (add l m) n = add (mul n l) (mul n m) :=
-  sorry
+  by
+    rw [mul_comm _ n]
+    rw [mul_add]
 
 
 /- ## Question 3 (**optional**): Intuitionistic Logic
