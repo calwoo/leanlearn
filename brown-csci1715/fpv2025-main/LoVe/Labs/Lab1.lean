@@ -24,18 +24,18 @@ def K : α → β → α :=
   fun a b ↦ a
 
 def C : (α → β → γ) → β → α → γ :=
-  sorry
+  fun g b a ↦ g a b
 
 def projFst : α → α → α :=
-  sorry
+  fun a b ↦ a
 
 /- Give a different answer than for `projFst`. -/
 
 def projSnd : α → α → α :=
-  sorry
+  fun a b ↦ b
 
 def someNonsense : (α → β → γ) → α → (α → γ) → β → γ :=
-  sorry
+  fun g a f b ↦ f a
 
 /- ## Question 2: Typing Derivation
 
@@ -107,7 +107,7 @@ the property that the value of `e` after simplification is the same as the
 value of `e` before. -/
 
 theorem simplify_correct (env : String → ℤ) (e : AExp) :
-  True :=   -- replace `True` with your theorem statement
+  eval env e = eval env (simplify e) :=   -- replace `True` with your theorem statement
   sorry     -- leave `sorry` alone
 
 /-! ## Question 4: Lists and Options
@@ -142,7 +142,9 @@ the output. Here's an example:
 `omap (λ x => x + 1) [some 0, none, some 2] = [some 1, none, some 3]` -/
 
 def omap {α β : Type} (f : α → β) : List (Option α) → List (Option β)
-  := sorry
+  | List.nil => List.nil
+  | List.cons none os => List.cons none (omap f os)
+  | List.cons (some x) os => List.cons (some (f x)) (omap f os)
 
 /-! ### 4.2.
 
@@ -158,3 +160,11 @@ Try to give meaningful names to your theorems, and make sure to state them
 as generally as possible. You can enter `sorry` in lieu of a proof. -/
 
   -- Write your theorem statements here
+
+theorem omap_identity (as : List (Option α)) :
+  omap (fun x ↦ x) as = as :=
+    sorry
+
+theorem omap_composition (f : α → β) (g : β → γ) (a: List (Option α)):
+  omap (fun x ↦ g (f x)) a = omap g (omap f a) :=
+    sorry

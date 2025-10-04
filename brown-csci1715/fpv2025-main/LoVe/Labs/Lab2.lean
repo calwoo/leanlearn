@@ -10,7 +10,7 @@ Replace the placeholders (e.g., `:= sorry`) with your solutions. -/
 
 /- ## Question 1: Connectives and Quantifiers
 
-### 1.1. 
+### 1.1.
 Carry out the following proofs using basic tactics.
 
 Hint: Some strategies for carrying out such proofs are described at the end of
@@ -18,38 +18,57 @@ Section 3.3 in the Hitchhiker's Guide. -/
 
 theorem I (a : Prop) :
   a → a :=
-  sorry
+    by
+      intro ha
+      exact ha
 
 theorem K (a b : Prop) :
   a → b → b :=
-  sorry
+    by
+      intro ha hb
+      exact hb
 
 theorem C (a b c : Prop) :
   (a → b → c) → b → a → c :=
-  sorry
+    by
+      intro ha hb hc
+      apply ha
+      {exact hc}
+      {exact hb}
 
 theorem proj_fst (a : Prop) :
   a → a → a :=
-  sorry
+    by
+      intro ha hb
+      exact ha
 
 /- Please give a different answer than for `proj_fst`: -/
 
 theorem proj_snd (a : Prop) :
   a → a → a :=
-  sorry
+    by
+      intro ha hb
+      exact hb
 
 theorem some_nonsense (a b c : Prop) :
   (a → b → c) → a → (a → c) → b → c :=
-  sorry
+    by
+      intro hf ha hg hb
+      apply hg
+      exact ha
 
-/- ### 1.2. 
+/- ### 1.2.
 \  Prove the contraposition rule using basic tactics. -/
 
 theorem contrapositive (a b : Prop) :
   (a → b) → ¬ b → ¬ a :=
-  sorry
+    by
+      intro ha hb hc
+      apply hb
+      apply ha
+      exact hc
 
-/- ### 1.3. 
+/- ### 1.3.
 \  Prove the distributivity of `∀` over `∧` using basic tactics.
 
 Hint: This exercise is tricky, especially the right-to-left direction. Some
@@ -58,12 +77,12 @@ be necessary. -/
 
 theorem forall_and {α : Type} (p q : α → Prop) :
   (∀x, p x ∧ q x) ↔ (∀x, p x) ∧ (∀x, q x) :=
-  sorry
+    sorry
 
 
 /- ## Question 2: Natural Numbers
 
-### 2.1. 
+### 2.1.
 Prove the following recursive equations on the first argument of the
 `mul` operator defined in lecture 1. -/
 
@@ -78,7 +97,7 @@ theorem mul_succ (m n : ℕ) :
   mul (Nat.succ m) n = add (mul m n) n :=
   sorry
 
-/- ### 2.2. 
+/- ### 2.2.
 \  Prove commutativity and associativity of multiplication using the
 `induction` tactic. Choose the induction variable carefully. -/
 
@@ -90,7 +109,7 @@ theorem mul_assoc (l m n : ℕ) :
   mul (mul l m) n = mul l (mul m n) :=
   sorry
 
-/- 2.3. 
+/- 2.3.
 \  Prove the symmetric variant of `mul_add` using `rw`. To apply
 commutativity at a specific position, instantiate the rule by passing some
 arguments (e.g., `mul_comm _ l`). -/
@@ -124,7 +143,7 @@ def DoubleNegation : Prop :=
 
 /- For the proofs below, avoid using theorems from Lean's `Classical` namespace.
 
-## 3.1 (**optional**). 
+## 3.1 (**optional**).
 Prove the following implication using tactics.
 
 Hint: You will need `Or.elim` and `False.elim`. You can use
@@ -135,7 +154,7 @@ theorem Peirce_of_EM :
   ExcludedMiddle → Peirce :=
   sorry
 
-/- ## 3.2 (**optional**). 
+/- ## 3.2 (**optional**).
 \  Prove the following implication using tactics. -/
 
 theorem DN_of_Peirce :
