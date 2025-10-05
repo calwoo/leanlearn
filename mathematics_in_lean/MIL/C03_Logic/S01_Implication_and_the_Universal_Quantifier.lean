@@ -149,7 +149,6 @@ example (of : FnOdd f) (og : FnOdd g) : FnEven fun x ↦ f x * g x := by
     (fun x ↦ f x * g x) x = f x * g x := rfl
     _ = f (-x) * g (-x) := by rw [of, og, neg_mul_neg]
 
-
 example (ef : FnEven f) (og : FnOdd g) : FnOdd fun x ↦ f x * g x := by
   sorry
 
